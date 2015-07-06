@@ -1,0 +1,9 @@
+{
+    "name": "firstbot",
+    "version": "0.0.1",
+    "dependencies": {
+        "irc": "0.3.*",
+        "lowdb": "0.10.*",
+        "moment-timezone": "0.4.*"
+    }
+}

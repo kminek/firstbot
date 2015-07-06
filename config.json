@@ -1,0 +1,11 @@
+{
+    "server": "irc.freenode.net",
+    "nick": "firstbot",
+    "channels": ["#firstbot"],
+    "phrase": "1st",
+    "timezone": "Europe/Warsaw",
+    "command": {
+        "stats": "firstbot stats",
+        "babe": "firstbot babe"
+    }
+}
