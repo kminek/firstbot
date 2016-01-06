@@ -22,6 +22,18 @@ var isEmpty = function(obj) {
     return true;
 };
 
+var detectPhrase = function (text, phrase) {
+    var textArr = text.split(' ');
+    var found = false;
+    for (var i = 0; i < textArr.length; i++) {
+        if (textArr[i].trim().toLowerCase() === phrase.toLowerCase()) {
+            found = true;
+            break;
+        }
+    }
+    return found;
+};
+
 var stats = function(channel)
 {
     var stats = db('stats').chain().where({
@@ -43,7 +55,7 @@ client.addListener('message', function (from, to, text, message) {
     var nick = message.nick;
     var localTime = moment().tz(config.timezone);
 
-    if (text === config.phrase) {
+    if (detectPhrase(text, config.phrase)) {
         var record = {
             channel: channel,
             year: localTime.year(),
