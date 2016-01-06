@@ -2,11 +2,12 @@ var fs = require('fs');
 var moment = require('moment-timezone');
 var irc = require('irc');
 var low = require('lowdb');
+var storage = require('lowdb/file-sync');
 
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 var babe = fs.readFileSync('babe.txt').toString().split('\n');
 
-var db = low('db.json');
+var db = low('db.json', { storage });
 var client = new irc.Client(config.server, config.nick, {
     channels: config.channels,
     userName: 'firstbot',
