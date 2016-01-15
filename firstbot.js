@@ -5,7 +5,6 @@ var low = require('lowdb');
 var storage = require('lowdb/file-sync');
 
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-var babe = fs.readFileSync('babe.txt').toString().split('\n');
 
 var db = low('db.json', { storage });
 var client = new irc.Client(config.server, config.nick, {
@@ -14,7 +13,7 @@ var client = new irc.Client(config.server, config.nick, {
     realName: 'firstbot',
 });
 
-var isEmpty = function(obj) {
+var isEmpty = function (obj) {
     for (var key in obj) {
         if (obj.hasOwnProperty(key)) {
             return false;
@@ -35,23 +34,24 @@ var detectPhrase = function (text, phrase) {
     return found;
 };
 
-var stats = function(channel)
-{
+var stats = function (channel, to) {
     var stats = db('stats').chain().where({
         channel: channel
     }).pluck('nick').countBy().value();
     if (isEmpty(stats)) {
-        client.say(channel, 'No stats for current channel');
+        client.say(to, 'No stats for current channel');
         return;
     }
-    client.say(channel, 'Current stats:');
-    for (var nick in stats) {
-        client.say(channel, nick + ': ' + stats[nick]);
+    var statsSorted = Object.keys(stats).sort(function (a,b) {
+        return stats[a] - stats[b];
+    });
+    client.say(to, 'Current stats:');
+    for (var nick in statsSorted) {
+        client.say(to, nick + ': ' + statsSorted[nick]);
     }
 };
 
 client.addListener('message', function (from, to, text, message) {
-
     var channel = message.args[0];
     var nick = message.nick;
     var localTime = moment().tz(config.timezone);
@@ -71,22 +71,10 @@ client.addListener('message', function (from, to, text, message) {
         record.date = localTime.format();
         db('stats').push(record);
         client.say(channel, 'Congratulations ' + nick + '! You were first :)');
-        stats(channel);
+        stats(channel, nick);
     } else if (text === config.command.stats) {
-        stats(channel);
-    } else if (text === config.command.babe) {
-        var i = 0;
-        client.say(channel, babe[i]);
-        var interval = setInterval(function () {
-            i++;
-            if (typeof babe[i] === 'undefined') {
-                clearInterval(interval);
-                return;
-            }
-            client.say(channel, babe[i]);
-        }, 2100);
+        stats(channel, nick);
     }
-
 });
 
 client.addListener('error', function (message) {

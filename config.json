@@ -5,7 +5,6 @@
     "phrase": "1st",
     "timezone": "Europe/Warsaw",
     "command": {
-        "stats": "firstbot stats",
-        "babe": "firstbot babe"
+        "stats": "firstbot stats"
     }
 }
