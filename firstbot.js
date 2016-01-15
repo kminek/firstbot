@@ -42,12 +42,16 @@ var stats = function (channel, to) {
         client.say(to, 'No stats for current channel');
         return;
     }
-    var statsSorted = Object.keys(stats).sort(function (a,b) {
-        return stats[a] - stats[b];
+    var sorted = [];
+    for (var nick in stats) {
+        sorted.push([nick, stats[nick]]);
+    }
+    sorted.sort(function(a, b) {
+        return a[1] - b[1];
     });
     client.say(to, 'Current stats:');
-    for (var nick in statsSorted) {
-        client.say(to, nick + ': ' + statsSorted[nick]);
+    for (var i = sorted.length - 1; i >= 0; i--) {
+        client.say(to, sorted[i][0] + ': ' + sorted[i][1]);
     }
 };
 
