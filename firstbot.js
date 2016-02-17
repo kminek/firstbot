@@ -11,6 +11,7 @@ var client = new irc.Client(config.server, config.nick, {
     channels: config.channels,
     userName: 'firstbot',
     realName: 'firstbot',
+    autoRejoin: true
 });
 
 var isEmpty = function (obj) {
