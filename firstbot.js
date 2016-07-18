@@ -6,7 +6,7 @@ var storage = require('lowdb/file-sync');
 
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
-var db = low('storage/db.json', { storage });
+var db = low('storage/database.json', { storage });
 var client = new irc.Client(config.server, config.nick, {
     channels: config.channels,
     userName: 'firstbot',
