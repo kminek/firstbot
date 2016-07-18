@@ -1,7 +1,7 @@
 {
     "server": "irc.freenode.net",
     "nick": "firstbot",
-    "channels": ["#firstbot"],
+    "channels": ["#strimoid"],
     "phrase": "1st",
     "timezone": "Europe/Warsaw",
     "command": {
